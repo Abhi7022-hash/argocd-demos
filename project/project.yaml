@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: frontend-teams
+  namespace: argocd
+spec:
+  description: This project holds a new frontend app
+
+  sourceRepos:
+    - https://github.com/Abhi7022-hash/argocd-demos.git
+
+  destinations:
+    - namespace: frontend
+      server: https://172.31.10.174:33893
+
+  clusterResourceWhitelist:
+    - group: "*"
+      kind: "*"
+
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"
+
+  roles:
+    - name: frontend-admins
+      description: Admins for frontend team
+      policies:
+        - p, proj:frontend-teams:frontend-admins, applications, *, frontend-teams/*, allow
+
